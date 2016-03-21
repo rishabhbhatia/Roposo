@@ -10,6 +10,9 @@ public class Story {
     @SerializedName("username")
     private String author;
 
+    @SerializedName("title")
+    private String title;
+
     @SerializedName("description")
     private String description;
 
@@ -105,5 +108,13 @@ public class Story {
 
     public void setContentPhoto(String contentPhoto) {
         this.contentPhoto = contentPhoto;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

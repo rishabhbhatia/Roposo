@@ -66,6 +66,11 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
             holder.tv_description.setText(story.getDescription().trim());
         }
 
+        if(story.getTitle() != null && !story.getTitle().isEmpty()) {
+            holder.tv_title.setVisibility(View.VISIBLE);
+            holder.tv_title.setText(story.getTitle().trim());
+        }
+
         if(story.getProfilePhotoUrl() != null && !story.getProfilePhotoUrl().isEmpty()) {
             Glide.with(context)
                     .load(story.getProfilePhotoUrl())
@@ -92,7 +97,7 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView tv_name,tv_date,tv_description;
+        private TextView tv_name,tv_date,tv_description,tv_title;
         private ImageView image;
         private CircleImageView photo;
 
@@ -102,17 +107,18 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
             tv_name = (TextView)view.findViewById(R.id.name);
             tv_date = (TextView)view.findViewById(R.id.date);
             tv_description = (TextView)view.findViewById(R.id.tvDescription);
+            tv_title = (TextView)view.findViewById(R.id.tvTitle);
             image = (ImageView) view.findViewById(R.id.image);
             photo = (CircleImageView) view.findViewById(R.id.photo);
         }
 
         public void clear() {
-            tv_name.setText("Test title");
+            tv_name.setText("Test User");
             tv_date.setText("");
-            tv_description.setText("");
 
             image.setVisibility(View.GONE);
             tv_description.setVisibility(View.GONE);
+            tv_title.setVisibility(View.GONE);
 
             //use some fallback photos here
             image.setImageBitmap(null);
