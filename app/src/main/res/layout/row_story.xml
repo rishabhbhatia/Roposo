@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="5dp"
     >
 
     <LinearLayout
@@ -28,8 +29,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:layout_marginTop="2dp"
                 android:maxLines="1"
                 android:ellipsize="end"
@@ -62,12 +63,12 @@
         android:maxLines="10"
         android:ellipsize="end"
         android:id="@+id/tvDescription"
-        android:padding="5dp"
+        android:padding="10dp"
         android:visibility="gone"
         />
 
 
-    <it.sephiroth.android.library.imagezoom.ImageViewTouch
+    <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="300dp"

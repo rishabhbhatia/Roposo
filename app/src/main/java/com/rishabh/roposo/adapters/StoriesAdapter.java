@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -94,7 +95,7 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView tv_name,tv_date,tv_description;
-        private ImageViewTouch image;
+        private ImageView image;
         private CircleImageView photo;
 
         public ViewHolder(View view) {
@@ -103,7 +104,7 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
             tv_name = (TextView)view.findViewById(R.id.name);
             tv_date = (TextView)view.findViewById(R.id.date);
             tv_description = (TextView)view.findViewById(R.id.tvDescription);
-            image = (ImageViewTouch) view.findViewById(R.id.image);
+            image = (ImageView) view.findViewById(R.id.image);
             photo = (CircleImageView) view.findViewById(R.id.photo);
         }
 
