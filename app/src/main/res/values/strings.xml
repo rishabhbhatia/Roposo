@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Roposo</string>
+
+    <!--Fragments -->
+
+    <string name="frag_stories_title">Stories</string>
 </resources>
