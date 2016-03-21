@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 public class Story {
 
     @SerializedName("username")
-    private String title;
+    private String author;
 
     @SerializedName("description")
     private String description;
@@ -51,12 +51,12 @@ public class Story {
     private Number followers;
 
 
-    public String getTitle() {
-        return title;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getDescription() {

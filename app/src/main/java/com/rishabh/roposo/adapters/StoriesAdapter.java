@@ -17,11 +17,9 @@ import com.rishabh.roposo.models.Story;
 import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import it.sephiroth.android.library.imagezoom.ImageViewTouch;
 
 /**
  * Created by rishabh bhatia on 21-03-2016.
@@ -48,8 +46,8 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
 
         holder.clear();
 
-        if(story.getTitle() != null && !story.getTitle().isEmpty()) {
-            holder.tv_name.setText(story.getTitle());
+        if(story.getAuthor() != null && !story.getAuthor().isEmpty()) {
+            holder.tv_name.setText(story.getAuthor());
         }
 
         try {
