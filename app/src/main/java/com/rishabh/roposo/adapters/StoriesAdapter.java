@@ -1,6 +1,8 @@
 package com.rishabh.roposo.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.rishabh.roposo.R;
 import com.rishabh.roposo.models.Story;
+import com.rishabh.roposo.ui.activities.StoryDetailActivity;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -27,10 +30,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHolder> {
 
-    private Context context;
+    private Activity context;
     private List<Story> stories;
 
-    public StoriesAdapter(Context context,List<Story> stories) {
+    public StoriesAdapter(Activity context,List<Story> stories) {
         this.context = context;
         this.stories = stories;
         Log.d("rick","size is: "+stories.size());
@@ -58,7 +61,6 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
                 holder.tv_date.setVisibility(View.VISIBLE);
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(story.getCreatedOn());
-                Log.d("rick",story.getCreatedOn().toString());
                 holder.tv_date.setText(new PrettyTime().format(calendar.getTime()));
             }else if(story.getVerb() != null && !story.getVerb().isEmpty())
             {
@@ -126,7 +128,9 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
         holder.btViewProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(context, StoryDetailActivity.class);
+                context.startActivity(intent);
+                context.overridePendingTransition(R.anim.enter, R.anim.exit);
             }
         });
     }
