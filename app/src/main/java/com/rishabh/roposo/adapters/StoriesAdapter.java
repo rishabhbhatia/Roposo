@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,8 +42,8 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Story story = stories.get(position);
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        final Story story = stories.get(position);
 
         holder.clear();
 
@@ -104,6 +105,30 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(holder.image);
         }
+
+        if(story.isFollowing()) {
+            holder.btFollow.setText("Following");
+        }
+
+        holder.btFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(story.isFollowing()) {
+                    story.setFollowing(false);
+                    holder.btFollow.setText("Follow");
+                }else {
+                    story.setFollowing(true);
+                    holder.btFollow.setText("Following");
+                }
+            }
+        });
+
+        holder.btViewProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override
@@ -116,6 +141,7 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
         private TextView tv_name,tv_date,tv_description,tv_title;
         private ImageView image;
         private CircleImageView profilePhoto;
+        private Button btViewProfile,btFollow;
 
         public ViewHolder(View view) {
             super(view);
@@ -126,6 +152,8 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
             tv_title = (TextView)view.findViewById(R.id.tvTitle);
             image = (ImageView) view.findViewById(R.id.image);
             profilePhoto = (CircleImageView) view.findViewById(R.id.photo);
+            btViewProfile = (Button) view.findViewById(R.id.bt_view_profile);
+            btFollow = (Button) view.findViewById(R.id.bt_follow);
         }
 
         public void clear() {
@@ -139,6 +167,8 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
             //use some fallback photos here
             image.setImageBitmap(null);
             profilePhoto.setImageResource(R.mipmap.ic_launcher);
+
+            btFollow.setText("Follow");
         }
     }
 }

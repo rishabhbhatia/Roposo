@@ -60,11 +60,43 @@
                     android:ellipsize="end"
                     android:text="2 hours ago"
                     android:id="@+id/date"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:textAppearance="@android:style/TextAppearance.Holo.Small"
                     android:textSize="12sp"
                     android:textColor="@android:color/tertiary_text_light"
                     />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="10dp"
+                    >
+
+                    <Button
+                        android:id="@+id/bt_view_profile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/primarybutton"
+                        android:text="View"
+                        android:textColor="@android:color/white"
+                        android:textSize="10sp"
+                        android:textAllCaps="true"
+                        />
+
+                    <Button
+                        android:id="@+id/bt_follow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/secondarybutton"
+                        android:text="Follow"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textAllCaps="true"
+                        android:layout_marginLeft="10dp"
+                        />
+
+                </LinearLayout>
 
             </LinearLayout>
 
