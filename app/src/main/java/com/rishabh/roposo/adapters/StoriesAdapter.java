@@ -33,7 +33,7 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
 
     private Activity context;
     private List<Story> stories;
-    private List<String> following;
+    public List<String> following;
 
     public StoriesAdapter(Activity context,List<Story> stories) {
         this.context = context;

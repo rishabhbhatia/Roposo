@@ -106,6 +106,17 @@ public class StoryDetailActivity extends AppCompatActivity {
             btFollow.setText("Following");
         }
 
+        btFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(btFollow.getText().toString().equals("Follow")) {
+                    btFollow.setText("Following");
+                }else {
+                    btFollow.setText("Following");
+                }
+            }
+        });
+
     }
 
     @Override
