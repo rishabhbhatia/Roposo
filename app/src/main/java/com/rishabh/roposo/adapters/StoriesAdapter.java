@@ -20,6 +20,7 @@ import com.rishabh.roposo.ui.activities.StoryDetailActivity;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -32,10 +33,13 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
 
     private Activity context;
     private List<Story> stories;
+    private List<String> following;
 
     public StoriesAdapter(Activity context,List<Story> stories) {
         this.context = context;
         this.stories = stories;
+
+        following  = new ArrayList<>();
     }
 
     @Override
@@ -107,8 +111,16 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
                     .into(holder.image);
         }
 
-        if(story.isFollowing()) {
+        if(story.isFollowing() || following.contains(story.getAuthor())) {
+            Log.d("rick","follow true: "+story.getAuthor());
+
             holder.btFollow.setText("Following");
+
+            //assuming every story with no author is a self generated roposo content
+            if(!following.contains(story.getAuthor()))
+            {
+                following.add(story.getAuthor());
+            }
         }
 
         holder.btFollow.setOnClickListener(new View.OnClickListener() {
@@ -117,9 +129,20 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
                 if(story.isFollowing()) {
                     story.setFollowing(false);
                     holder.btFollow.setText("Follow");
+                    Log.d("rick","unfollow: "+story.getAuthor());
+
+                    if(following.contains(story.getAuthor())) {
+                        following.remove(story.getAuthor());
+                    }
                 }else {
+                    Log.d("rick","follow: "+story.getAuthor());
                     story.setFollowing(true);
                     holder.btFollow.setText("Following");
+
+                    if(!following.contains(story.getAuthor()))
+                    {
+                        following.add(story.getAuthor());
+                    }
                 }
             }
         });
@@ -176,7 +199,11 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
             intent.putExtra("si", story.getContentPhoto());
         }
 
-        intent.putExtra("isFollowing",story.isFollowing());
+        if(following.contains(story.getAuthor())) {
+            intent.putExtra("isFollowing", true);
+        }else {
+            intent.putExtra("isFollowing", story.isFollowing());
+        }
 
         context.startActivity(intent);
         context.overridePendingTransition(R.anim.enter, R.anim.exit);
