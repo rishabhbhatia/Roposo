@@ -23,7 +23,7 @@ public class Story {
     private String profileUrl;
 
     @SerializedName("createdOn")
-    private String createdOn;
+    private Long createdOn;
 
     @SerializedName("is_following")
     private boolean isFollowing;
@@ -86,11 +86,11 @@ public class Story {
         isFollowing = following;
     }
 
-    public String getCreatedOn() {
+    public Long getCreatedOn() {
         return createdOn;
     }
 
-    public void setCreatedOn(String createdOn) {
+    public void setCreatedOn(Long createdOn) {
         this.createdOn = createdOn;
     }
 

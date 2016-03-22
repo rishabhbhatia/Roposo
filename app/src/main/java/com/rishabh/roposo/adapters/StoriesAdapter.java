@@ -51,11 +51,11 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
         }
 
         try {
-            if (story.getCreatedOn() != null && !story.getCreatedOn().isEmpty()) {
+            if (story.getCreatedOn() != null && story.getCreatedOn() != 0) {
                 holder.tv_date.setVisibility(View.VISIBLE);
                 Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(Long.
-                        getLong(story.getCreatedOn()));
+                calendar.setTimeInMillis(story.getCreatedOn());
+                Log.d("rick",story.getCreatedOn().toString());
                 holder.tv_date.setText(new PrettyTime().format(calendar.getTime()));
             }
         }catch (NullPointerException np){
