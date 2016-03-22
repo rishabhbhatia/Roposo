@@ -2,6 +2,8 @@ package com.rishabh.roposo.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -50,6 +52,14 @@ public class StoriesFragment extends Fragment {
 
         recyclerView = (SuperRecyclerView) view.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+
+        FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(recyclerView,"Voila!",Snackbar.LENGTH_SHORT).show();
+            }
+        });
 
         recyclerView.setLayoutManager(layoutManager);
 
