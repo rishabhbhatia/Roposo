@@ -13,6 +13,9 @@ public class Story {
     @SerializedName("title")
     private String title;
 
+    @SerializedName("about")
+    private String about;
+
     @SerializedName("description")
     private String description;
 
@@ -127,5 +130,13 @@ public class Story {
 
     public void setVerb(String verb) {
         this.verb = verb;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
     }
 }
