@@ -1,12 +1,12 @@
 package com.rishabh.roposo.ui.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Space;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -35,6 +35,7 @@ public class StoryDetailActivity extends AppCompatActivity {
     @Bind(R.id.image) ImageView contentPhoto;
     @Bind(R.id.date) TextView tvDate;
     @Bind(R.id.tvDescription) TextView tvDescription;
+    @Bind(R.id.space) Space space;
 
 
     @Override
@@ -44,6 +45,7 @@ public class StoryDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         btProfile.setVisibility(View.GONE);
+        space.setVisibility(View.GONE);
 
         populateData();
 

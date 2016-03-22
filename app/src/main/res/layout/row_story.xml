@@ -101,6 +101,11 @@
                         android:textAllCaps="true"
                         />
 
+                    <Space
+                        android:id="@+id/space"
+                        android:layout_width="10dp"
+                        android:layout_height="match_parent" />
+
                     <Button
                         android:id="@+id/bt_follow"
                         android:layout_width="wrap_content"
@@ -110,7 +115,6 @@
                         android:textColor="@android:color/black"
                         android:textSize="10sp"
                         android:textAllCaps="true"
-                        android:layout_marginLeft="10dp"
                         />
 
                 </LinearLayout>
