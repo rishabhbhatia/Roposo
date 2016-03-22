@@ -46,40 +46,55 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
 
         holder.clear();
 
-        if(story.getAuthor() != null && !story.getAuthor().isEmpty()) {
+        if(story.getAuthor() != null && !story.getAuthor().isEmpty())
+        {
             holder.tv_name.setText(story.getAuthor());
         }
 
         try {
-            if (story.getCreatedOn() != null && story.getCreatedOn() != 0) {
+            if (story.getCreatedOn() != null && story.getCreatedOn() != 0)
+            {
                 holder.tv_date.setVisibility(View.VISIBLE);
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(story.getCreatedOn());
                 Log.d("rick",story.getCreatedOn().toString());
                 holder.tv_date.setText(new PrettyTime().format(calendar.getTime()));
+            }else if(story.getVerb() != null && !story.getVerb().isEmpty())
+            {
+                holder.tv_date.setVisibility(View.VISIBLE);
+                holder.tv_date.setText(story.getVerb());
             }
-        }catch (NullPointerException np){
+        }catch (NullPointerException np) {
+            if(story.getVerb() != null && !story.getVerb().isEmpty())
+            {
+                holder.tv_date.setVisibility(View.VISIBLE);
+                holder.tv_date.setText(story.getVerb());
+            }
         }
 
-        if(story.getDescription() != null && !story.getDescription().isEmpty()) {
+        if(story.getDescription() != null && !story.getDescription().isEmpty())
+        {
             holder.tv_description.setVisibility(View.VISIBLE);
             holder.tv_description.setText(story.getDescription().trim());
         }
 
-        if(story.getTitle() != null && !story.getTitle().isEmpty()) {
+        if(story.getTitle() != null && !story.getTitle().isEmpty())
+        {
             holder.tv_title.setVisibility(View.VISIBLE);
             holder.tv_title.setText(story.getTitle().trim());
         }
 
-        if(story.getProfilePhotoUrl() != null && !story.getProfilePhotoUrl().isEmpty()) {
+        if(story.getProfilePhotoUrl() != null && !story.getProfilePhotoUrl().isEmpty())
+        {
             Glide.with(context)
                     .load(story.getProfilePhotoUrl())
                     .centerCrop()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .into(holder.photo);
+                    .into(holder.profilePhoto);
         }
 
-        if(story.getContentPhoto() != null && !story.getContentPhoto().isEmpty()) {
+        if(story.getContentPhoto() != null && !story.getContentPhoto().isEmpty())
+        {
 
             holder.image.setVisibility(View.VISIBLE);
 
@@ -96,10 +111,11 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
         return stories.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
         private TextView tv_name,tv_date,tv_description,tv_title;
         private ImageView image;
-        private CircleImageView photo;
+        private CircleImageView profilePhoto;
 
         public ViewHolder(View view) {
             super(view);
@@ -109,11 +125,11 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
             tv_description = (TextView)view.findViewById(R.id.tvDescription);
             tv_title = (TextView)view.findViewById(R.id.tvTitle);
             image = (ImageView) view.findViewById(R.id.image);
-            photo = (CircleImageView) view.findViewById(R.id.photo);
+            profilePhoto = (CircleImageView) view.findViewById(R.id.photo);
         }
 
         public void clear() {
-            tv_name.setText("Test User");
+            tv_name.setText("Roposo");
             tv_date.setText("");
 
             image.setVisibility(View.GONE);
@@ -122,7 +138,7 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
 
             //use some fallback photos here
             image.setImageBitmap(null);
-            photo.setImageBitmap(null);
+            profilePhoto.setImageResource(R.mipmap.ic_launcher);
         }
     }
 }

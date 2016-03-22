@@ -1,93 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/cardview_light_background"
+    app:cardCornerRadius="@dimen/cardview_default_radius"
+    android:layout_margin="5dp"
+    app:cardElevation="@dimen/cardview_default_elevation"
+    app:contentPaddingBottom="5dp"
     >
-
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
         >
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/photo"
-            />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_vertical"
-            android:layout_gravity="center_vertical"
+            android:padding="10dp"
             >
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:layout_marginTop="2dp"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:text="Rishabh bhatia"
-                android:id="@+id/name"
-                android:textAppearance="@android:style/TextAppearance.Medium"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/photo"
+                android:src="@mipmap/ic_launcher"
                 />
 
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingRight="5dp"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:text="2 hours ago"
-                android:id="@+id/date"
-                android:visibility="gone"
-                android:textAppearance="@android:style/TextAppearance.Holo.Small"
-                />
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_marginTop="2dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="Rishabh bhatia"
+                    android:id="@+id/name"
+                    android:textSize="15sp"
+                    android:textColor="@android:color/primary_text_light"
+                    />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="5dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="2 hours ago"
+                    android:id="@+id/date"
+                    android:visibility="visible"
+                    android:textAppearance="@android:style/TextAppearance.Holo.Small"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/tertiary_text_light"
+                    />
+
+            </LinearLayout>
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:id="@+id/tvTitle"
+            android:padding="10dp"
+            android:visibility="gone"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:textColor="@android:color/holo_green_dark"
+            android:text="#Rishabh"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="10"
+            android:ellipsize="end"
+            android:id="@+id/tvDescription"
+            android:padding="10dp"
+            android:visibility="gone"
+            />
+
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            />
+
     </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="2"
-        android:ellipsize="end"
-        android:id="@+id/tvTitle"
-        android:padding="10dp"
-        android:visibility="gone"
-        android:textAppearance="@android:style/TextAppearance.Medium"
-        android:textColor="@android:color/holo_green_dark"
-        android:text="#Rishabh"
-        />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="10"
-        android:ellipsize="end"
-        android:id="@+id/tvDescription"
-        android:padding="10dp"
-        android:visibility="gone"
-        />
-
-
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_margin="2dp"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        />
-
-</LinearLayout>
+</android.support.v7.widget.CardView>

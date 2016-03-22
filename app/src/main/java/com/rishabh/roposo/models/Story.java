@@ -25,6 +25,9 @@ public class Story {
     @SerializedName("createdOn")
     private Long createdOn;
 
+    @SerializedName("verb")
+    private String verb;
+
     @SerializedName("is_following")
     private boolean isFollowing;
 
@@ -116,5 +119,13 @@ public class Story {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getVerb() {
+        return verb;
+    }
+
+    public void setVerb(String verb) {
+        this.verb = verb;
     }
 }
