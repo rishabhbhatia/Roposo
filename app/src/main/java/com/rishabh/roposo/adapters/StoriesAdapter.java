@@ -2,6 +2,7 @@ package com.rishabh.roposo.adapters;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,7 +36,6 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
     public StoriesAdapter(Activity context,List<Story> stories) {
         this.context = context;
         this.stories = stories;
-        Log.d("rick","size is: "+stories.size());
     }
 
     @Override
@@ -127,11 +127,59 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
         holder.btViewProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, StoryDetailActivity.class);
-                context.startActivity(intent);
-                context.overridePendingTransition(R.anim.enter, R.anim.exit);
+                launchStoryDetaiView(story);
             }
         });
+
+        holder.card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchStoryDetaiView(story);
+            }
+        });
+    }
+
+    private void launchStoryDetaiView(Story story)
+    {
+        Intent intent = new Intent(context, StoryDetailActivity.class);
+
+        intent.putExtra("title",story.getTitle());
+
+        if(story.getAuthor() != null)
+        {
+            intent.putExtra("author", story.getAuthor());
+        }
+
+        if(story.getProfilePhotoUrl() != null)
+        {
+            intent.putExtra("profilePhoto", story.getProfilePhotoUrl());
+        }
+
+        if(story.getAbout() != null)
+        {
+            intent.putExtra("about", story.getAbout());
+        }
+
+        if(story.getCreatedOn() != null && story.getCreatedOn() != 0) {
+            intent.putExtra("createdOn", story.getCreatedOn());
+        }else {
+            intent.putExtra("verb", story.getVerb());
+        }
+
+        if(story.getDescription() != null)
+        {
+            intent.putExtra("description", story.getDescription());
+        }
+
+        if(story.getContentPhoto() != null)
+        {
+            intent.putExtra("si", story.getContentPhoto());
+        }
+
+        intent.putExtra("isFollowing",story.isFollowing());
+
+        context.startActivity(intent);
+        context.overridePendingTransition(R.anim.enter, R.anim.exit);
     }
 
     @Override
@@ -145,6 +193,7 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
         private ImageView image;
         private CircleImageView profilePhoto;
         private Button btViewProfile,btFollow;
+        private CardView card;
 
         public ViewHolder(View view) {
             super(view);
@@ -157,6 +206,7 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
             profilePhoto = (CircleImageView) view.findViewById(R.id.photo);
             btViewProfile = (Button) view.findViewById(R.id.bt_view_profile);
             btFollow = (Button) view.findViewById(R.id.bt_follow);
+            card = (CardView) view.findViewById(R.id.card);
         }
 
         public void clear() {
