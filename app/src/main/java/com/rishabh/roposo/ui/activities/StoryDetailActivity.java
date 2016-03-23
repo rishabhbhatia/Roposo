@@ -1,5 +1,7 @@
 package com.rishabh.roposo.ui.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -36,6 +38,9 @@ public class StoryDetailActivity extends AppCompatActivity {
     @Bind(R.id.date) TextView tvDate;
     @Bind(R.id.tvDescription) TextView tvDescription;
     @Bind(R.id.space) Space space;
+    private boolean hasFollowStatusChanged = false;
+    private boolean isFollowing = false;
+    private boolean wasOriginallyFollowing = false;
 
 
     @Override
@@ -46,6 +51,10 @@ public class StoryDetailActivity extends AppCompatActivity {
 
         btProfile.setVisibility(View.GONE);
         space.setVisibility(View.GONE);
+
+        isFollowing = getIntent().getBooleanExtra("isFollowing",false);
+
+        wasOriginallyFollowing = isFollowing;
 
         populateData();
 
@@ -102,17 +111,24 @@ public class StoryDetailActivity extends AppCompatActivity {
             tvDescription.setText(getIntent().getStringExtra("description"));
         }
 
-        if(getIntent().getBooleanExtra("isFollowing",false)) {
+        if(isFollowing) {
             btFollow.setText("Following");
         }
 
         btFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(btFollow.getText().toString().equals("Follow")) {
+
+                hasFollowStatusChanged = true;
+
+                if(isFollowing)
+                {
+                    btFollow.setText("Follow");
+                    isFollowing = false;
+                }else
+                {
                     btFollow.setText("Following");
-                }else {
-                    btFollow.setText("Following");
+                    isFollowing = true;
                 }
             }
         });
@@ -121,7 +137,17 @@ public class StoryDetailActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+
+        if(wasOriginallyFollowing == isFollowing)
+        {
+            super.onBackPressed();
+        }else {
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("author", getIntent().getStringExtra("author"));
+            returnIntent.putExtra("isFollowing",isFollowing);
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        }
         overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
     }
 }

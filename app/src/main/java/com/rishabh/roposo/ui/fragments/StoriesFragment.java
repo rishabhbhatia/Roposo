@@ -1,12 +1,15 @@
 package com.rishabh.roposo.ui.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +19,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.rishabh.roposo.R;
 import com.rishabh.roposo.adapters.StoriesAdapter;
 import com.rishabh.roposo.models.Story;
@@ -33,11 +35,14 @@ import java.util.List;
  */
 public class StoriesFragment extends Fragment {
 
-    private SuperRecyclerView recyclerView;
+    private RecyclerView recyclerView;
+    private StoriesAdapter adapter;
+    private List<Story> stories;
 
     public static StoriesFragment newInstance() {
         return new StoriesFragment();
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,8 +55,11 @@ public class StoriesFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerView = (SuperRecyclerView) view.findViewById(R.id.recyclerView);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
         FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +69,6 @@ public class StoriesFragment extends Fragment {
             }
         });
 
-        recyclerView.setLayoutManager(layoutManager);
 
         Gson gson = new Gson();
         JsonReader reader = loadData();
@@ -70,18 +77,16 @@ public class StoriesFragment extends Fragment {
             JsonArray jArray = parser.parse(reader).getAsJsonArray();
 
             Type listType = new TypeToken<List<Story>>(){}.getType();
-            List<Story> stories = (List<Story>) gson.fromJson(jArray.toString(), listType);
+            stories = (List<Story>) gson.fromJson(jArray.toString(), listType);
 
             try {
                 reader.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            StoriesAdapter adapter = new StoriesAdapter(getActivity(),stories);
+            adapter = new StoriesAdapter(this,stories);
 
             recyclerView.setAdapter(adapter);
-        }else {
-            Log.d("rick","null reader");
         }
     }
 
@@ -97,9 +102,20 @@ public class StoriesFragment extends Fragment {
 
             reader = new JsonReader(streamReader);
 
-        } catch (Exception e) {
-            Log.e("rick", e.getLocalizedMessage(), e);
-        }
+        } catch (Exception e) { }
         return reader;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode !=  Activity.RESULT_OK) return;
+
+        String author = data.getStringExtra("author");
+        Boolean isFollowing = data.getBooleanExtra("isFollowing",false);
+
+        adapter.refreshSpecificAuthorOnly(author,isFollowing);
     }
 }

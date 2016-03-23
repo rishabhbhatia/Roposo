@@ -1,10 +1,9 @@
 package com.rishabh.roposo.adapters;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ import com.rishabh.roposo.ui.activities.StoryDetailActivity;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -31,24 +29,22 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHolder> {
 
-    private Activity context;
+    private Fragment context;
     private List<Story> stories;
-    public List<String> following;
+    private final int REQUEST_POS = 101;
 
-    public StoriesAdapter(Activity context,List<Story> stories) {
+    public StoriesAdapter(Fragment context, List<Story> stories) {
         this.context = context;
         this.stories = stories;
-
-        following  = new ArrayList<>();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.row_story,parent,false));
+        return new ViewHolder(LayoutInflater.from(context.getActivity()).inflate(R.layout.row_story,parent,false));
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Story story = stories.get(position);
 
         holder.clear();
@@ -111,16 +107,9 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
                     .into(holder.image);
         }
 
-        if(story.isFollowing() || following.contains(story.getAuthor())) {
-            Log.d("rick","follow true: "+story.getAuthor());
-
+        if(story.isFollowing())
+        {
             holder.btFollow.setText("Following");
-
-            //assuming every story with no author is a self generated roposo content
-            if(!following.contains(story.getAuthor()))
-            {
-                following.add(story.getAuthor());
-            }
         }
 
         holder.btFollow.setOnClickListener(new View.OnClickListener() {
@@ -129,20 +118,11 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
                 if(story.isFollowing()) {
                     story.setFollowing(false);
                     holder.btFollow.setText("Follow");
-                    Log.d("rick","unfollow: "+story.getAuthor());
-
-                    if(following.contains(story.getAuthor())) {
-                        following.remove(story.getAuthor());
-                    }
+                    refreshSpecificAuthorOnly(story.getAuthor(),false);
                 }else {
-                    Log.d("rick","follow: "+story.getAuthor());
                     story.setFollowing(true);
                     holder.btFollow.setText("Following");
-
-                    if(!following.contains(story.getAuthor()))
-                    {
-                        following.add(story.getAuthor());
-                    }
+                    refreshSpecificAuthorOnly(story.getAuthor(),true);
                 }
             }
         });
@@ -150,21 +130,21 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
         holder.btViewProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchStoryDetaiView(story);
+                launchStoryDetaiView(story,position);
             }
         });
 
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchStoryDetaiView(story);
+                launchStoryDetaiView(story,position);
             }
         });
     }
 
-    private void launchStoryDetaiView(Story story)
+    private void launchStoryDetaiView(Story story, int position)
     {
-        Intent intent = new Intent(context, StoryDetailActivity.class);
+        Intent intent = new Intent(context.getActivity(), StoryDetailActivity.class);
 
         intent.putExtra("title",story.getTitle());
 
@@ -199,14 +179,10 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
             intent.putExtra("si", story.getContentPhoto());
         }
 
-        if(following.contains(story.getAuthor())) {
-            intent.putExtra("isFollowing", true);
-        }else {
-            intent.putExtra("isFollowing", story.isFollowing());
-        }
+        intent.putExtra("isFollowing", story.isFollowing());
 
-        context.startActivity(intent);
-        context.overridePendingTransition(R.anim.enter, R.anim.exit);
+        context.startActivityForResult(intent,REQUEST_POS);
+        context.getActivity().overridePendingTransition(R.anim.enter, R.anim.exit);
     }
 
     @Override
@@ -244,11 +220,29 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
             tv_description.setVisibility(View.GONE);
             tv_title.setVisibility(View.GONE);
 
-            //use some fallback photos here
             image.setImageBitmap(null);
             profilePhoto.setImageResource(R.mipmap.ic_launcher);
 
             btFollow.setText("Follow");
+        }
+    }
+
+    public void refreshSpecificAuthorOnly(String author, boolean isFollowing)
+    {
+        for(int i = 0; i < stories.size(); i++)
+        {
+            Story story = stories.get(i);
+
+            if(story.getAuthor() == null && author == null)
+            {
+                story.setFollowing(isFollowing);
+                notifyItemChanged(i);
+            }
+            else if(story.getAuthor() != null && author != null && story.getAuthor().equals(author))
+            {
+                story.setFollowing(isFollowing);
+                notifyItemChanged(i);
+            }
         }
     }
 }
